@@ -51,3 +51,9 @@ A release requires deterministic tests of purchases/reconnect, multi-client play
 - Developer Products: https://create.roblox.com/docs/production/monetization/developer-products
 - Paid Random Items: https://create.roblox.com/docs/production/monetization/paid-random-items
 - Roblox asset imports: https://create.roblox.com/docs/assets
+
+
+## Mandatory free asset policy and Studio MCP
+All third-party game assets must be **free and verified for commercial use**. See [Free-only asset policy](docs/05-ASSET-PIPELINE.md#10-free-only-asset-policy-mandatory-overrides-optional-paid-sources-above). Optional paid sources mentioned earlier in the asset guide are superseded by this rule. Do not commit restricted source assets to this public repository.
+
+For Codex → Roblox Studio connectivity, follow [MCP setup on Windows](docs/04-CODEX-ROBLOX-STUDIO.md#9-codex--roblox-studio-mcp-setup-guide-windows). MCP is optional; Rojo remains the preferred Luau source synchronization mechanism.
