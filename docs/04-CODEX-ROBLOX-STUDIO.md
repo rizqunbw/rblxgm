@@ -205,3 +205,29 @@ Workspace children. If unavailable, tell me exactly which prerequisite is
 missing. Keep all Luau source code in Git/Rojo; use Studio MCP only for
 verified Studio operations. Do not install untrusted plugins.
 ```
+
+## 10. VERIFIED OFFICIAL ROBLOX STUDIO MCP — CODEX APP (NOV 2026)
+This section **supersedes section 9's generic community bridge selection** for current Roblox Studio. Prefer Roblox's built-in MCP server, no third-party Studio plugin required.
+
+**Official source:** https://github.com/Roblox/roblox-studio-agent-plugin and https://create.roblox.com/docs/studio/mcp . The official agent plugin includes Codex setup guidance; Roblox Studio already ships its own MCP server.
+
+### Preferred Quick Connect (Windows)
+1. Update Roblox Studio, sign in, and open a **private test place**.
+2. Studio → Assistant → ... → Settings → MCP Servers (older versions: Manage MCP Servers).
+3. Enable **Studio as MCP server**.
+4. Under Quick Connect, enable **ChatGPT (codex)** if offered.
+5. Restart Codex App or start a new Codex thread so MCP tools load.
+6. Ask Codex to list open Studio windows and inspect Workspace **read-only**. Verify it reports the correct place.
+
+### Fallback: manual registration (only if Quick Connect unavailable)
+PowerShell check: `Test-Path "$env:LOCALAPPDATA\Roblox\mcp.bat"` . If false, update/reinstall Studio first. Check `%USERPROFILE%\.codex\config.toml` for an existing `[mcp_servers.Roblox_Studio]` entry and **do not duplicate** it.
+
+Add to `%USERPROFILE%\.codex\config.toml`:
+```toml
+[mcp_servers.Roblox_Studio]
+command = "cmd.exe"
+args = ["/c", "cd /d %LOCALAPPDATA%\\Roblox && .\\mcp.bat"]
+```
+Restart Codex and test read-only inspection. CLI alternative if installed: `codex mcp add Roblox_Studio '--' cmd.exe /c 'cd /d %LOCALAPPDATA%\Roblox && .\mcp.bat'` . The quoted `'--'` is important in PowerShell.
+
+**No duplicate MCP servers:** if an older community bridge is already registered, do not run both. Prefer the official `Roblox_Studio` entry. Back up the test place before allowing Codex to edit Studio. Use Git/Rojo as source of truth for scripts; direct Studio MCP edits may not write back to Git.
