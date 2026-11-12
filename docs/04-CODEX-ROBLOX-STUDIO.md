@@ -147,3 +147,61 @@ limits, opt-out and moderation safeguards. No permanent victim inventory loss.
 
 ## 8. Git discipline
 Create feature branches (`feat/plot-service`), commit per milestone, run local tests, PR with evidence, merge only after QA. Use tags for releases and retain place-file backups. Rollback includes code commit AND compatible persisted schema; never revert schema blindly.
+
+
+## 9. CODEX ↔ ROBLOX STUDIO MCP: SETUP GUIDE (WINDOWS)
+**MCP is optional; Rojo remains the code sync source of truth.** There are multiple community Roblox Studio MCP bridges with different installation commands. Never copy a made-up server name, command or repository URL. Choose a maintained bridge, inspect its source, verify its permissions and follow that bridge's actual README. A GitHub connector or MCP connection to GitHub is NOT a connection to Roblox Studio.
+
+### A. Prerequisites
+1. Install Roblox Studio and create a private test place.
+2. Install Codex desktop app/CLI or editor extension from official OpenAI distribution; sign in.
+3. Install Node.js LTS only if your chosen MCP bridge needs Node; some bridges use Python or a binary. Check its README.
+4. Install Git, Rojo and the Rojo Studio plugin (see section 1–3 above).
+5. Identify an actively maintained **Roblox Studio MCP server + matching Studio plugin**. Check last update, exact installation command, plugin provenance, tool capabilities and permissions. Never run arbitrary install scripts or provide Roblox login cookies.
+6. Keep Studio open on a private test place during connection tests.
+
+### B. Register the MCP server with Codex
+**Option 1: Codex CLI (recommended when bridge documents an executable command).**
+```powershell
+codex --version
+codex mcp --help
+codex mcp add --help
+```
+Use the real server name and launch command documented by the chosen MCP bridge. Example *syntax only* (NOT an installable server):
+```powershell
+codex mcp add roblox-studio -- <ACTUAL_BRIDGE_EXECUTABLE> <ACTUAL_ARGS>
+codex mcp list
+```
+Replace angle-bracket placeholders from the bridge's README. If a bridge instead provides an HTTP/SSE endpoint, use the transport flags supported by **your installed Codex version**; inspect `codex mcp add --help` rather than guessing.
+
+**Option 2: Codex configuration** — inspect the current Codex MCP documentation and your local `~/.codex/config.toml` format. Do not paste placeholder command names as real commands. Keep credentials out of Git and screenshots.
+
+### C. Pair Studio plugin with MCP server
+1. Install the bridge's **matching** Studio plugin from the developer's official instructions; do not mix plugins from different projects.
+2. Start the MCP server if the bridge requires a standalone process.
+3. Open Studio test place and enable/connect the plugin to localhost as documented.
+4. Studio may prompt for HTTP requests / plugin permissions depending on bridge; enable only the minimum required for the verified bridge, and never expose a local endpoint publicly.
+5. In Codex ask: "List connected MCP servers and Roblox Studio tools. Do not change the game." If no tools appear, stop and debug.
+6. Ask Codex: "Read the current Studio place name and list Workspace children. Do not edit." Compare with Explorer.
+7. In a **throwaway test place**, ask Codex to create a single anchored Part named `MCP_Connection_Test`; verify in Explorer. Delete it, then test reading again.
+8. Do not allow unreviewed destructive commands, mass deletes, publishing, credential access or marketplace purchases through MCP.
+
+### D. If no bridge is installed
+You can still use Codex effectively: Codex edits `src/**/*.luau` → `rojo serve` → Rojo plugin syncs scripts to Studio → manual Play testing → Codex reviews logs pasted from Output. MCP is a productivity enhancement, not a blocker.
+
+### E. Common failure checks
+- Codex shows zero tools: wrong server launch command, process crashed, config not loaded, restart Codex.
+- Codex tools present but Studio unavailable: plugin missing, incompatible version, Studio closed, port mismatch or local HTTP permission.
+- Changes in Studio not reflected in Git: MCP modifies live place objects, not necessarily Rojo source files. Record/export intentional changes and avoid editing Rojo-owned scripts via MCP.
+- Security: never grant an unverified bridge internet-exposed endpoints, Roblox auth cookies, or access to production place before review.
+
+### F. One-time verification prompt
+```text
+We are building MUTANT FACTORY from this repository. Read all docs.
+First, enumerate the MCP servers and Roblox Studio tools actually connected.
+Do not pretend tools exist. Do not modify production data.
+If Studio MCP is available, read-only inspect the open test place and list
+Workspace children. If unavailable, tell me exactly which prerequisite is
+missing. Keep all Luau source code in Git/Rojo; use Studio MCP only for
+verified Studio operations. Do not install untrusted plugins.
+```
