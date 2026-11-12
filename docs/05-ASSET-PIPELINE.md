@@ -99,3 +99,45 @@ Each creature needs:
 ## 9. Asset Registry fields
 `assetKey,category,sourceURL,creator,license,licenseVersion,downloadDate,attributionRequired,distributionRightsVerified,sourceLocalPath,robloxAssetId,polyCount,textureSize,rigged,reviewer,status,notes`
 Store metadata; keep files in a separate private storage location if redistribution rights do not permit a public repo.
+
+
+## 10. FREE-ONLY ASSET POLICY (MANDATORY, overrides optional paid sources above)
+**Budget for third-party 3D asset licenses: $0.** Do not buy assets, use trials that expire, download rips, or assume a model is free just because it is visible online. All game models, environments, animation clips, textures, SFX and icons must be sourced from verified free-for-commercial-use licenses, made in-house, or created from those sources under permitted derivative terms. "Premium" refers to polish, not purchase price.
+
+### Approved acquisition shortlist
+1. **Kenney** — https://kenney.nl/assets — modular 3D, props, UI, audio. Check specific asset license, generally CC0. Search keywords: industrial, platformer, sci-fi, UI, interface.
+2. **Quaternius** — https://quaternius.com — stylized 3D packs, characters, creatures and environments. Review pack-specific license and QAL; commercial game use can be permitted but do not redistribute raw asset packs. Search animated, monsters, robots, modular, sci-fi.
+3. **Poly Pizza** — https://poly.pizza — curated stylized props. FILTER to CC0 where possible; CC BY requires attribution and license record. Never assume every listing is CC0.
+4. **OpenGameArt** — https://opengameart.org — free game art and audio; licenses vary per listing (CC0, CC BY, GPL, etc.). Prefer CC0/CC BY with attribution, reject ambiguous licenses.
+5. **Roblox Creator Store** — https://create.roblox.com/store — Studio-native models, materials, audio. Verify permissions, license, script contents and asset provenance; never import unknown scripts.
+6. **Mixamo** — https://www.mixamo.com — useful humanoid animations if compatible with creature rigs. Verify current account/license and Roblox commercial use before publishing; not a source for arbitrary quadruped rigs.
+7. **Blender** — https://www.blender.org — free tool to adapt legally obtained meshes, optimize and animate. Blender itself is not an asset library.
+
+**Not approved by default:** paid CGTrader/Sketchfab listings, subscription-only libraries, ripped Roblox games, copyrighted franchises, AI-generated clones of existing characters, assets with "personal use only", assets whose license cannot be proven. A free Sketchfab listing is not automatically commercially licensed.
+
+### Suggested download order (do not invent pack URLs)
+- Factory floor/walls/paths: Kenney modular 3D packs; fallback Quaternius modular environment.
+- Machines: Quaternius sci-fi props and Kenney industrial props; assemble 3 distinctive machines in Studio from scriptless MeshParts.
+- Creatures: Quaternius free stylized/animated creatures **as bases only**; adjust silhouette, eyes, colors, attachments and animations to create the six original mutant species. If unsuitable, build simple original meshes in Blender from primitive forms.
+- UI/icons: Kenney UI assets, then original vector-style icons.
+- FX/SFX: Kenney audio packs or verified CC0 OpenGameArt; record source and license.
+- Animation: native Roblox Animation Editor for creatures; Mixamo only when rig-compatible and license verified.
+
+### Exact asset selection worksheet
+For each proposed asset, add one row to `assets/ASSET-REGISTRY.csv` BEFORE import:
+`assetKey,category,sourceURL,creator,license,licenseVersion,downloadDate,attributionRequired,distributionRightsVerified,sourceLocalPath,robloxAssetId,polyCount,textureSize,rigged,reviewer,status,notes`.
+Status progression: CANDIDATE → LICENSE_VERIFIED → IMPORTED → OPTIMIZED → QA_APPROVED. Do not ship CANDIDATE assets. Record attribution in game credits where required. Keep downloaded raw packs out of public GitHub unless license explicitly allows redistribution.
+
+### Import checklist (Windows)
+1. Download from official creator page, save a copy of license/URL.
+2. Extract to a private local `AssetSource/` directory (gitignored).
+3. Open in Blender and inspect geometry, textures, bones and material slots.
+4. Remove irrelevant meshes, reduce polygons, fix normals and pivots; export FBX or glTF.
+5. Studio → 3D Importer → import, verify orientation, scale, collisions and materials.
+6. For animation, use Animation Editor/import supported clips, publish and record actual IDs.
+7. Inspect all descendants of Creator Store models; remove unexpected scripts/modules.
+8. Test all assets with 8 plots and 48 visible mutants on low-end mobile quality settings.
+9. Update registry with final ID, review evidence, attribution and QA status.
+
+### Codex asset instructions
+Codex must NOT claim it downloaded, imported, licensed, rigged, or animated an asset without proof. It may produce search lists, asset registry entries, scripts to instantiate approved models, and exact manual Studio actions. No guessed Roblox asset IDs. Provide a placeholder fallback for every unavailable asset.
